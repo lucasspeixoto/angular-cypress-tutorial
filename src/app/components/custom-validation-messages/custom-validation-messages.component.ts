@@ -1,30 +1,26 @@
 import { Component, inject, Input } from '@angular/core';
-import {
-  ControlContainer,
-  type FormGroup,
-  type FormControl,
-} from '@angular/forms';
+import { ControlContainer, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-validation-messages',
   imports: [],
   template: `
     @if (control && control.invalid && control.dirty) {
-    <ul>
+    <ul id="messages">
       @if (control.hasError('required')) {
-      <li class="error-message">&#9888; Este Campo é obrigatório!</li>
+      <li id="required" class="error-message">Este Campo é obrigatório!</li>
       } @if (control.hasError('email')) {
-      <li class="error-message">&#9888; Endereço de E-mail inválido!</li>
+      <li id="email" class="error-message">Endereço de E-mail inválido!</li>
       } @if (control.hasError('minlength') && minLength) {
-      <li class="error-message">
-        &#9888; Este campo deve ter ao menos {{ minLength }} caracteres!
+      <li id="minLength" class="error-message">
+        Este campo deve ter ao menos {{ minLength }} caracteres!
       </li>
       } @if (control.hasError('maxlength') && maxLength) {
-      <li class="error-message">
-        &#9888; Este campo deve ter no máximo {{ maxLength }} caracteres!
+      <li id="maxLength" class="error-message">
+        Este campo deve ter no máximo {{ maxLength }} caracteres!
       </li>
       } @if (control.hasError('pattern')) {
-      <li class="error-message">&#9888; Padrão inválido!</li>
+      <li id="pattern" class="error-message">Padrão inválido!</li>
       }
     </ul>
     }

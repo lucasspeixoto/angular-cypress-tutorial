@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  type OnDestroy,
-  type OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -14,7 +8,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { Subject, takeUntil } from 'rxjs';
+import { CustomValidationMessagesComponent } from '../../../components/custom-validation-messages/custom-validation-messages.component';
 
 @Component({
   selector: 'app-create-user',
@@ -24,57 +18,61 @@ import { Subject, takeUntil } from 'rxjs';
     NzCheckboxModule,
     NzFormModule,
     NzInputModule,
+    CustomValidationMessagesComponent,
   ],
   template: ` <div class="container">
-    <form
-      class="container__form"
-      nz-form
-      [formGroup]="validateForm"
-      (ngSubmit)="submitForm()"
-    >
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4" nzRequired nzFor="name">Nome</nz-form-label>
-        <nz-form-control [nzSpan]="8" nzErrorTip="O nome é obrigatório">
-          <input
-            type="text"
-            nz-input
-            formControlName="name"
-            placeholder="Digite o seu nome"
-          />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label
-          [nzSpan]="4"
-          nzFor="nickname"
-          [nzRequired]="validateForm.controls.required.value"
-        >
-          Apelido
-        </nz-form-label>
-        <nz-form-control [nzSpan]="8" nzErrorTip="Apelido obrigatório">
-          <input
-            type="text"
-            nz-input
-            formControlName="nickname"
-            placeholder="Digite o apelido ou como gostaria de ser chamado"
-          />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control [nzSpan]="8" [nzOffset]="4">
-          <label nz-checkbox formControlName="required"
-            >Apelido obrigatório</label
-          >
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control [nzSpan]="8" [nzOffset]="4">
-          <button [disabled]="validateForm.invalid" nz-button nzType="primary">
-            Criar
-          </button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
+    <div class="container__form">
+      <form id="form" nz-form [formGroup]="validateForm">
+        <nz-form-item id="nameItem">
+          <nz-form-label nzRequired>Nome</nz-form-label>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="user">
+              <input
+                id="nameField"
+                nz-input
+                formControlName="name"
+                placeholder="Digite o seu nome"
+              />
+            </nz-input-group>
+            <app-custom-validation-messages
+              [minLength]="3"
+              id="nameErrorMessage"
+              controlName="name"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item id="emailItem">
+          <nz-form-label nzRequired>E-mail</nz-form-label>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="mail">
+              <input
+                id="emailField"
+                nz-input
+                formControlName="email"
+                placeholder="Entre com seu email"
+              />
+            </nz-input-group>
+            <app-custom-validation-messages
+              [minLength]="3"
+              id="emailErrorMessage"
+              controlName="email"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+
+    <div class="container__actions">
+      <button
+        id="createButton"
+        (click)="submitForm()"
+        [disabled]="validateForm.invalid"
+        nz-button
+        nzType="primary"
+      >
+        Criar
+      </button>
+    </div>
   </div>`,
   styles: [
     `
@@ -84,30 +82,53 @@ import { Subject, takeUntil } from 'rxjs';
 
         &__form {
           padding: 0;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          form {
+            width: 50%;
+
+            @media (max-width: 750px) {
+              width: 100%;
+            }
+          }
+        }
+
+        &__actions {
+          display: flex;
+          justify-content: center;
+          margin-top: 16px;
+          width: 100%;
+
+          button {
+            width: 80px;
+            padding: 5px;
+
+            @media (max-width: 750px) {
+              width: 100%;
+              padding: 0;
+            }
+          }
         }
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateUserComponent implements OnInit, OnDestroy {
+export class CreateUserComponent {
   private fb = inject(NonNullableFormBuilder);
 
-  private destroy$ = new Subject<void>();
-
   public validateForm = this.fb.group({
-    name: this.fb.control('', [Validators.required]),
-    nickname: this.fb.control(''),
-    required: this.fb.control(false),
+    name: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+    email: this.fb.control('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.email,
+    ]),
   });
-
-  public ngOnInit(): void {
-    this.validateForm.controls.required.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.requiredChange(value);
-      });
-  }
 
   public submitForm(): void {
     if (this.validateForm.valid) {
@@ -121,21 +142,5 @@ export class CreateUserComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  public requiredChange(required: boolean): void {
-    if (!required) {
-      this.validateForm.controls.nickname.clearValidators();
-      this.validateForm.controls.nickname.markAsPristine();
-    } else {
-      this.validateForm.controls.nickname.setValidators(Validators.required);
-      this.validateForm.controls.nickname.markAsDirty();
-    }
-    this.validateForm.controls.nickname.updateValueAndValidity();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
