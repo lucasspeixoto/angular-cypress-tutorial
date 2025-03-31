@@ -1,0 +1,132 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Create new user",
+    "line": 1,
+    "id": "create-new-user",
+    "tags": [],
+    "uri": "CreateUser.feature",
+    "elements": [
+      {
+        "id": "create-new-user;create-user-with-invalid-inputs",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "Create user with invalid inputs",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "The user is on the page",
+            "result": {
+              "status": "passed",
+              "duration": 649000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "The user type ad in the name field",
+            "result": {
+              "status": "passed",
+              "duration": 684000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "The message Este campo deve ter ao menos 3 caracteres! should be displayed above the name field",
+            "result": {
+              "status": "passed",
+              "duration": 39000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "The user type email in the email field",
+            "result": {
+              "status": "passed",
+              "duration": 256000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "The message Endereço de E-mail inválido! should be displayed above the email field",
+            "result": {
+              "status": "passed",
+              "duration": 35000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "I should see Criar button disabled",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "Inputs are cleaned up",
+            "result": {
+              "status": "passed",
+              "duration": 439000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "create-new-user;create-user-with-valid-inputs",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Create user with valid inputs",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "The user type Lucas in the name field",
+            "result": {
+              "status": "passed",
+              "duration": 321000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "The user type email@gmail.com in the email field",
+            "result": {
+              "status": "passed",
+              "duration": 418000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "I should see Criar button enabled",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

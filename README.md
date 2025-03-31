@@ -1,12 +1,12 @@
 # Testes de integração no angular
 
-Repositório do projeto criado em vídeo no meu canal onde entendemos o que é cypress, testes de integração e como configurar esses testes em um projeto angular: [Veja o vídeo](https://youtu.be/3UVKQZZ1XBc)
+Repositório do projeto criado em vídeo no meu canal onde entendemos o que é cypress, testes de integração e como configurar esses testes em um projeto angular utilizando typescript e cucumber: [Veja o vídeo](https://youtu.be/7uykQWoxub8)
 
 ![Capa](public/thumb.png "Capa")
 
 ## Descrição Vídeo
 
-Nesse vídeo vamos entender o que é um teste de integração e como podemos utilizar o cypress com cucumber para configurar testes e2e em projetos angular.
+Nesse vídeo vamos entender o que é um teste de integração (e2e) e como podemos utilizar o cypress com cucumber e typescript para configurar testes e2e em projetos angular.
 
 ## Clonar o projeto
 
